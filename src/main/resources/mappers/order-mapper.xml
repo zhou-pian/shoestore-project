@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.shoestoreproject.mapper.OrderMapper">
+
+    <select id="findAllOrders" resultType="com.ssm.shoestoreproject.domin.OrdersPlus">
+        select orders.*,userInfo.userName,userInfo.userContact,userInfo.userAdd from orders,userInfo where orders.userId=userInfo.userId
+    </select>
+
+    <select id="findOrderItem" resultType="com.ssm.shoestoreproject.domin.OrderItemPlus">
+        select OrderItem.*,shoeName,shoePicture,price,shoeSize
+        from OrderItem,Orders,shoeInfo
+        where OrderItem.orderId = Orders.orderId and OrderItem.shoeId = shoeInfo.shoeId and Orders.orderId = #{orderId}
+    </select>
+
+    <select id="findOrderByShoe" resultType="com.ssm.shoestoreproject.domin.OrderItemPlus">
+        select OrderItem.*,userInfo.userName,userInfo.userContact,userInfo.userAdd,shoePicture
+        from OrderItem,Orders,ShoeInfo,UserInfo
+        where OrderItem.orderId = Orders.orderId and OrderItem.shoeId = shoeInfo.shoeId and Orders.userId = userinfo.userId and shoeInfo.shoeId = #{shoeId}
+    </select>
+
+    <select id="getShoeId" resultType="Integer">
+        select shoeId from OrderItem where orderItemId = #{orderItemId}
+    </select>
+
+    <update id="updateStatus1">
+        update orderItem set status = '已发货' where orderItemId = #{orderItemId}
+    </update>
+
+    <update id="updateStatus2">
+        update orderItem set status = '已退货' where orderItemId = #{orderItemId}
+    </update>
+
+    <insert id="insertOrderItem" parameterType="com.ssm.shoestoreproject.domin.OrderItem">
+        insert into OrderItem(shoeId,orderId,quantity) values(#{shoeId},#{orderId},#{quantity})
+    </insert>
+
+    <insert id="insertOrder" parameterType="com.ssm.shoestoreproject.domin.Orders">
+        insert into Orders(userId,amount,status_o,status_s) values(#{userId},#{amount},#{status_o},#{status_s})
+    </insert>
+
+    <select id="getOrderId" resultType="Integer">
+        select orderId from Orders where status_s='正在选择'
+    </select>
+
+    <select id="getStatus_o" resultType="String">
+        select status_o from orders where orderId = #{orderId}
+    </select>
+
+    <select id="getAmount" resultType="Double">
+        select amount from orders where orderId = #{orderId}
+    </select>
+
+    <update id="updateStatus_o">
+        update orders set status_o = '0-0' where orderId = #{orderId}
+    </update>
+
+    <update id="updateStatus_s">
+        update orders set status_s = '已选择' where orderId = #{orderId}
+    </update>
+
+    <delete id="deleteorder">
+        delete from orders where orderId = #{orderId}
+    </delete>
+
+    <select id="getquantity" resultType="Integer">
+        select quantity from orderitem where orderItemId = #{orderItemId}
+    </select>
+
+    <select id="getUserId" resultType="Integer">
+        select userId from orders where orderId = #{orderId}
+    </select>
+
+</mapper>

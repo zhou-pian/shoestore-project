@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.shoestoreproject.mapper.CategoryMapper">
+
+    <select id="findById" resultType="com.ssm.shoestoreproject.domin.Category">
+        select * from Category where categoryId = #{categoryId}
+    </select>
+
+    <select id="showAllCategories" resultType="com.ssm.shoestoreproject.domin.Category">
+        select * from category
+    </select>
+
+    <select id="SelectShoesBycategoryId" resultType="com.ssm.shoestoreproject.domin.ShoeInfo">
+        select shoeInfo.* from category,shoeInfo where category.categoryId = shoeInfo.cId and category.categoryId = #{categoryId} Group by shoeName
+    </select>
+
+</mapper>

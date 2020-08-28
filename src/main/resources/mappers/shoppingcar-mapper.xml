@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.shoestoreproject.mapper.ShoppingCarMapper">
+
+    <select id="findShoppingCarByUser" resultType="com.ssm.shoestoreproject.domin.ShoppingCarPlus">
+        select shoppingcar.*,shoeInfo.shoeName,shoeInfo.shoePicture,shoeInfo.price,shoeInfo.shoeSize
+        from ShoppingCar,ShoeInfo
+        where userId = #{userId} and ShoppingCar.shoeId = ShoeInfo.shoeId
+    </select>
+
+    <select id="findShoppingCarById" resultType="com.ssm.shoestoreproject.domin.ShoppingCarPlus">
+        select shoppingcar.*,shoeInfo.shoeName,shoeInfo.shoePicture,shoeInfo.price,shoeInfo.shoeSize
+        from ShoppingCar,ShoeInfo
+        where shoppingcarId = #{shoppingcarId} and ShoppingCar.shoeId = ShoeInfo.shoeId
+    </select>
+
+    <update id="setQuantity1">
+        update shoppingcar
+        set quantity = quantity+1
+        where shoppingcarId = #{shoppingcar}
+    </update>
+
+    <update id="setQuantity2">
+        update shoppingcar
+        set quantity = quantity-1
+        where shoppingcarId = #{shoppingcar}
+    </update>
+
+    <select id="getShoeId" resultType="Integer">
+        select shoeId from shoppingcar where shoppingcarId = #{shoppingcar}
+    </select>
+
+    <select id="getQuantity" resultType="Integer">
+        select quantity from shoppingcar where shoppingcarId = #{shoppingcar}
+    </select>
+
+    <delete id="deleteshoppingcar" >
+        delete from shoppingcar where shoppingcarId = #{shoppingcarId}
+    </delete>
+
+    <select id="showshoppingcar" resultType="com.ssm.shoestoreproject.domin.ShoeInfoShoppingcar">
+        select shoeinfo.*,shoppingcar.quantity from shoeinfo,shoppingcar where shoeinfo.shoeId = shoppingcar.shoeId and shoppingcar.userId=#{userId}
+    </select>
+</mapper>

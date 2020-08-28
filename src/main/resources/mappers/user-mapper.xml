@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.shoestoreproject.mapper.UserMapper">
+
+    <select id="findByName" resultType="com.ssm.shoestoreproject.domin.UserInfo">
+        select * from UserInfo where UserName = #{name}
+    </select>
+
+    <select id="findUserById" resultType="com.ssm.shoestoreproject.domin.UserInfo">
+        select * from UserInfo where UserId = #{id}
+    </select>
+
+    <select id="findByNameandPasswd" resultType="com.ssm.shoestoreproject.domin.UserInfo">
+        select * from UserInfo where UserName=#{name} and UserPasswd=#{passwd}
+    </select>
+
+    <insert id="addUser" parameterType="com.ssm.shoestoreproject.domin.UserInfo">
+        insert into UserInfo(userName,userPasswd,userContact,userAdd) values(#{userName},#{userPasswd},#{userContact},#{userAdd})
+    </insert>
+
+    <update id="updateUserSave">
+        update userinfo set userSave = #{userSave} where userId = #{userId}
+    </update>
+
+    <update id="updateUserSave1">
+        update userinfo set userSave = userSave + #{userSave} where userId = #{userId}
+    </update>
+
+    <update id="updateUserAdd" parameterType="com.ssm.shoestoreproject.domin.UserInfo">
+         update userInfo set userAdd = #{userAdd} where userId = #{userId}
+    </update>
+
+    <select id="getUserSave" resultType="Double">
+        select userSave  from UserInfo where userId = #{userId}
+    </select>
+</mapper>

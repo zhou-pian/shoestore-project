@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.shoestoreproject.mapper.UserOrdersMapper">
+
+    <delete id="deletenosaveorder">
+        delete form orders where orderId = #{orderId}
+    </delete>
+
+    <select id="findAllOrders" resultType="com.ssm.shoestoreproject.domin.OrdersPlus">
+        select orders.*,userInfo.userName,userInfo.userContact,userInfo.userAdd from orders,userInfo where orders.userId=userInfo.userId and orders.userId = #{userId}
+    </select>
+
+    <select id="findOrderItem" resultType="com.ssm.shoestoreproject.domin.OrderItemPlus">
+        select OrderItem.*,shoeName,shoePicture,price,shoeSize
+        from OrderItem,Orders,shoeInfo
+        where OrderItem.orderId = Orders.orderId and OrderItem.shoeId = shoeInfo.shoeId and Orders.orderId = #{orderId}
+    </select>
+
+    <update id="UserupdateStatus1">
+        update orderItem set status = '待退货' where orderItemId = #{orderItemId}
+    </update>
+</mapper>

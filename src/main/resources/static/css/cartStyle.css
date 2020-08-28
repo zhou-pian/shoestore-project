@@ -1,0 +1,28 @@
+.content{ margin: 0 auto;}
+
+.cartList{
+    overflow: hidden;
+}
+
+.cartList tbody tr td input[name="price"]{
+    border: none;
+    background: transparent;
+    font-size: larger;
+    width: 120px;
+    text-align: center;
+}
+
+.cartList tbody tr td input[name="amount"]{
+    width: 45px;
+    text-align: center;
+    border: 1px solid #999999;
+    border-left: none;
+    border-right: none;
+    height: 21px;
+}
+.cartList tbody tr td input[name="minus"],.cartList ul li input[name="plus"]{
+    height: 25px;
+    border: 1px #999999 solid;
+    width: 25px;
+    text-align: center;
+}

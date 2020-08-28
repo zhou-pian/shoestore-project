@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户登录页面</title>
+    <script type="text/javascript" th:src="@{/js/jquery-2.1.0.js}"></script>
+</head>
+<style>
+    .text{
+        width: 400;
+        height: 80;
+    }
+    .item{
+        width: 500px;
+        height: 400px;
+        background-color: rgba(0, 0, 0, 0.1); /*背景颜色 a:透明度*/
+        margin: 50px auto; /* 150代表距离页面顶部的距离 auto左右自动居中 */
+        border-radius: 6px; /*增加弧度*/
+        line-height: 70px;
+        position:absolute; z-index:999; right:100px; bottom:330px"
+    }
+    h1{
+        color: black;
+        padding-left: 10px; /* 内容到盒子左边边框的距离 */
+    }
+    body {
+        background: url('../img/login/login.jpg') no-repeat;
+        width:100%;
+        overflow: hidden;
+        background-size: cover;
+    }
+    input[type=text], input[type=password]
+    {
+        width: 300px;
+        height: 40px;
+        margin-left: 105px;
+        margin-top: 30px;
+        border-radius: 6px;
+        border: 2px #666666 solid; /*边框宽度，边框颜色， 边框样式*/
+        outline: none; /*让这个蓝色的背景框不显示*/
+        background-color: transparent; /*设置透明*/
+        color:#000000;
+        text-indent: 10px; /*文本内容缩进属性*/
+    }
+    input[type=submit], input[type=reset]
+    {
+        width: 100px;
+        height:  30px;
+        margin-left: 105px;
+        margin-top: 30px;
+        border-radius: 6px;
+        background-color: #666666;
+        border: 0; /*去掉边框*/
+        color: white;
+        font-size: 15px; /* 字体大小*/
+    }
+    input:focus /*当鼠标点击文本框时的阴影部分*/
+    {
+        border-style: solid;
+        border-color: white;
+        box-shadow: 0 0 10px white; /* 第一个0向右移动 第二个0向移动 */
+    }
+    input::-webkit-input-placeholder{
+        color:white;
+    }
+    input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+        color:white;
+    }
+    input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+        color:snow;
+    }
+    input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+        color:snow;
+    }
+</style>
+
+<script>
+    function Check() {
+        var f = false;
+        //获取用户输入的用户名
+        var name = document.getElementById("name").value;
+        //获取用户输入的密码
+        var passwd = document.getElementById("passwd").value;
+        //获取用户类型
+        //var use = document.getElementById("use").value;
+        //去除字符串两端空格
+        name = name.trim();
+        passwd = passwd.trim();
+        //use = use.trim();
+        $.ajax({
+            url:"/shoe/check",
+            type:"post",
+            data:{"name":name, "passwd": passwd}, //json数据格式的用户名从jsp传递给controller
+            dataType:"json",
+            async:false, // 让ajax执行代码顺序同步
+            success: function (data) {
+                if (data.msg == "false") {
+                    alert("用户名或密码输入错误!");
+                }
+                else {
+                    alert(name+" 用户,欢迎您");
+                    f=true;
+                }
+            }
+
+        });
+        return f;
+    }
+</script>
+
+<body>
+<form th:action="@{/shoe/user/index}" method="post" onsubmit="return Check()">
+    <table align="center">
+        <tr height="80px">
+            <td colspan="2" align="center" ><h1 style="font-family:楷体;">网上鞋店</h1>
+            </td>
+        </tr>
+
+        <tr align="center"  height="40px" >
+            <td style="font-family:楷体;"  >名称:</td>
+            <td ><input type="text" name="name" title="名称" id="name"></td>
+        </tr>
+
+        <tr align="center" height="40px">
+            <td style="font-family:楷体;" >密码:</td>
+            <td ><input type="text" name="passwd" title="密码" id="passwd"></td>
+        </tr>
+
+    </table>
+
+    <!--<h4 style="font-family:楷体; " align="center">-->
+        <!--<input type="radio" value="1" name="use" id="use" checked>用户-->
+        <!--<input type="radio" value="2" name="use" >管理员-->
+    <!--</h4>-->
+
+    <span id="ts" style="color: red;font-size: 10"></span>
+
+    <h4 style="font-family:楷体; color:white" align="center">
+        <input type="submit" value="登录" />
+        <input type="reset" value="重置" />
+    </h4>
+
+    <h3 style="font-family:楷体; color:white;text-align:right"><a href="/shoe/register">还未注册？点击立即拥有帐号</a> </h3>
+</form>
+</body>
+</html>

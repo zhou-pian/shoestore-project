@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.shoestoreproject.mapper.ShoeMapper">
+
+<!--    管理员-->
+    <select id="findAll" resultType="com.ssm.shoestoreproject.domin.ShoePlus">
+         select shoeInfo.*, Category.categoryName from shoeInfo,Category where shoeInfo.cId = Category.categoryId
+    </select>
+
+    <select id="findById" resultType="com.ssm.shoestoreproject.domin.ShoeInfo">
+        select * from ShoeInfo where shoeId = #{shoeId}
+    </select>
+
+    <insert id="insertShoe" parameterType="com.ssm.shoestoreproject.domin.ShoeInfo">
+        insert into ShoeInfo(shoeName,shoePicture,price,inventory,cId,shoeSize,shoeStyle)
+        values(#{shoeName},#{shoePicture},#{price},#{inventory},#{cId},#{shoeSize},#{shoeStyle})
+    </insert>
+
+    <update id="updateShoe" parameterType="com.ssm.shoestoreproject.domin.ShoeInfo">
+        update ShoeInfo
+        set shoeName=#{shoeName},price=#{price},inventory=#{inventory},cId=#{cId},shoeSize=#{shoeSize},shoeStyle=#{shoeStyle}
+        where shoeId = #{shoeId}
+    </update>
+
+    <delete id="deleteShoe">
+        delete from shoeInfo where shoeId = #{shoeId}
+    </delete>
+
+    <update id="deliverShoe">
+        update ShoeInfo
+        set inventory = inventory-1
+        where shoeId = #{shoeId}
+    </update>
+
+    <select id="getPrice" resultType="Double">
+        select price from shoeInfo where shoeId = #{shoeId}
+    </select>
+
+    <update id="updatesoldnumber">
+        update shoeinfo set soldNumber = soldNumber + #{quantity} where shoeId = #{shoeId}
+    </update>
+
+    <update id="updatesoldnumber1">
+        update shoeinfo set soldNumber = soldNumber - #{quantity} where shoeId = #{shoeId}
+    </update>
+<!--    用户-->
+    <select id="ShowAllShoes" resultType="com.ssm.shoestoreproject.domin.ShoeInfo">
+        select * from ShoeInfo group by shoeName
+    </select>
+
+    <select id="ShowOneShoe" resultType="com.ssm.shoestoreproject.domin.ShoeInfo">
+        select * from ShoeInfo WHERE ShoeName = #{name}
+    </select>
+
+    <select id="ShowOneShoeById" resultType="com.ssm.shoestoreproject.domin.ShoeInfo">
+        select * from ShoeInfo WHERE ShoeId = #{shoeId} group by shoeSize
+    </select>
+
+    <insert id="OneaddShoppingCar" parameterType="com.ssm.shoestoreproject.domin.ShoppingCar">
+        insert into shoppingcar(userId,shoeId,quantity) values(#{userId},#{shoeId},#{quantity})
+    </insert>
+
+    <select id="findCarByuIdandsId" resultType="com.ssm.shoestoreproject.domin.ShoppingCar">
+        select * from shoppingcar where shoppingcar.userId = #{userId} and shoeId = #{shoeId}
+    </select>
+
+    <update id="updateCarByuIdandsId">
+        update shoppingcar set quantity = quantity+1 where shoppingcar.userId = #{userId} and shoeId = #{shoeId}
+    </update>
+
+    <select id="SelectShoeByName" resultType="com.ssm.shoestoreproject.domin.ShoeInfo">
+        select * from ShoeInfo where shoeName like #{shoeName} group by shoeName
+    </select>
+
+</mapper>

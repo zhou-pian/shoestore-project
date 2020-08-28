@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>导航</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/food_style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/food_w.css}"/>
+
+</head>
+<body>
+    <div class="c-nav">
+        <div class="container navFlex">
+            <!--<div class="flexItem">-->
+            <!--<img class="logo" th:src="@{/img/dining/wunsun-logo.png}" />-->
+            <!--</div>-->
+
+            <!--<div class="flexItem hiden">-->
+            <!--<img class="btnImg" th:src="@{/img/dining/navBtn.png}" />-->
+            <!--</div>-->
+            <div class="flexItem show">
+                <ul>
+                    <li><a th:href="@{/admin/showAll}">管理员首页</a></li>
+                    <li><a th:href="@{/admin/showAllOrders}">订单管理</a></li>
+                    <li>新增商品</li>
+                    <!--<li><a href="#">我的</a></li>-->
+                    <li><a th:href="@{/shoe/chagelogin}">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <br>
+        <h1 align="center">新增商品</h1>
+        <br>
+    </div>
+
+<div>
+    <form  action="/admin/uploadShoe" method="post" enctype="multipart/form-data">
+        <table align="center">
+            <tr>
+                <td>商品图片：</td>
+                <td><input type="file" name="file"/></td>
+            </tr>
+            <tr>
+                <td>商品名称：</td>
+                <td><input type="text" name="shoeName"></td>
+            </tr>
+            <tr>
+                <td>库存数量：</td>
+                <td><input type="text" name="inventory"><br/></td>
+            </tr>
+            <tr>
+                <td>商品价格：</td>
+                <td><input type="text" name="price"><br/></td>
+            </tr>
+            <tr>
+                <td>商品尺码：</td>
+                <td><input list="browsers1" name="shoeSize">
+                    <datalist id="browsers1">
+                        <option value="35"></option>
+                        <option value="36"></option>
+                        <option value="37"></option>
+                        <option value="38"></option>
+                        <option value="39"></option>
+                        <option value="40"></option>
+                        <option value="41"></option>
+                        <option value="42"></option>
+                        <option value="43"></option>
+                    </datalist>
+                </td>
+            <tr>
+                <td>商品风格：</td>
+                <td><input list="browsers" name="shoeStyle">
+                    <datalist id="browsers">
+                        <option value="男"></option>
+                        <option value="女"></option>
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>所属类型</td>
+                <td>
+                    <select name="cId">
+                        <option value="">--请选择--</option>
+                        <option th:each="c:${categories}" th:value="${c.categoryId}" th:text="${c.categoryName}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit"  value="确定" /></td>
+                <td><input type="reset" value="取消"/></td>
+            </tr>
+        </table>
+
+    </form>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript">
+    //用于判断导航栏的状态
+    var toggle = true;
+
+    //导航栏按钮
+    $('.btnImg').click(function() {
+        if (toggle) {
+            $('.btnImg').css("border", "1px solid #b0ccf3");
+            toggle = false
+        } else {
+            $('.btnImg').css("border", "1px solid transparent");
+            toggle = true;
+        }
+        $(".show").slideToggle(300);
+    });
+
+    //窗口大小发生改变
+    $(window).resize(function() {
+        //获取窗口宽度
+        var windSize = $(window).width();
+
+        if (windSize > 423) {
+            $(".show").slideDown(0);
+        } else {
+            $(".show").slideUp(0);
+        }
+    });
+</script>
+<div style="text-align:center;">
+
+</div>
+<!--<script src="http://www.mycodes.net/js/tongji.js"></script>-->
+<!--<script src="http://www.mycodes.net/js/youxia.js" type="text/javascript"></script>-->
+</body>
+</html>

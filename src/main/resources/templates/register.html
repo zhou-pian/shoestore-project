@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <script type="text/javascript" th:src="@{/js/jquery-2.1.0.js}"></script>
+</head>
+
+<script>
+    function Check() {
+        var f = false;
+        //获取用户输入的用户名
+        var name = document.getElementById("name").value;
+
+        //去除字符串两端空格
+        name = name.trim();
+
+        $.ajax({
+            url:"/shoe/checkName",
+            type:"post",
+            data:{"name":name}, //json数据格式的用户名从jsp传递给controller
+            dataType:"json",
+            async:false, // 让ajax执行代码顺序同步
+            success: function (data) {
+                if (data.msg == "false") {
+                    alert("用户名已存在");
+                }
+                else {
+                    alert(name+"  注册成功！");
+                    f=true;
+                }
+            }
+
+        });
+        return f;
+    }
+</script>
+
+<body>
+<form action="/shoe/insert" method="post" onsubmit="return Check()">
+    <table align="center"  >
+        <tr height="80px">
+            <td colspan="2" align="center" ><h1 style="font-family:楷体; ">用户注册</h1>
+            </td>
+        </tr>
+
+        <tr align="center"  height="40px" >
+            <td style="font-family:楷体;"  >用户名:</td>
+            <td ><input type="text" name="name" id="name"></td>
+        </tr>
+
+        <tr align="center" height="40px">
+            <td style="font-family:楷体; " >密码:</td>
+            <td ><input type="text" name="passwd" ></td>
+        </tr>
+
+        <tr align="center" height="40px">
+            <td style="font-family:楷体; " >联系方式:</td>
+            <td ><input type="text" name="contact"></td>
+        </tr>
+
+        <tr align="center" height="40px">
+            <td style="font-family:楷体" >收货地址:</td>
+            <td ><input type="text" name="add"></td>
+        </tr>
+
+
+    </table>
+
+    <h4 style="font-family:楷体; color:white" align="center">
+        <input type="submit" value="提交" />
+        <input type="reset" value="重置" />
+    </h4>
+    <table align="center">
+        <tr>
+            <td>
+                <h5><a href = "/shoe/login">用户登录</a></h5>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
